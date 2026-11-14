@@ -30,7 +30,7 @@ public class EspacioInicializador implements ApplicationRunner {
 		}
 		List<EspacioParqueo> nuevos = new ArrayList<>();
 		int siguiente = 1;
-		siguiente = agregar(nuevos, TipoVehiculo.CARRRO, props.getCarro(), siguiente);
+		siguiente = agregar(nuevos, TipoVehiculo.CARRO, props.getCarro(), siguiente);
 		siguiente = agregar(nuevos, TipoVehiculo.MOTO, props.getMoto(), siguiente);
 		siguiente = agregar(nuevos, TipoVehiculo.BICICLETA, props.getBicicleta(), siguiente);
 

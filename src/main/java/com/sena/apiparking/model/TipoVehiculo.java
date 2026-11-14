@@ -2,7 +2,7 @@ package com.sena.apiparking.model;
 
 public enum TipoVehiculo {
 
-		CARRRO,
+		CARRO,
 		MOTO,
 		BICICLETA
 }

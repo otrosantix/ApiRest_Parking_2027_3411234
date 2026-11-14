@@ -17,9 +17,10 @@ import com.sena.apiparking.service.EspacioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-public @RestController @RequestMapping("/api/espacios") @RequiredArgsConstructor
-
-class EspacioController {
+@RestController
+@RequestMapping("/api/espacios")
+@RequiredArgsConstructor
+public class EspacioController {
 
 	private final EspacioService service;
 

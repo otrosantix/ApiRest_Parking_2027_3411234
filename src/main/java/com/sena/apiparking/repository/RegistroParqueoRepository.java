@@ -37,7 +37,7 @@ public interface RegistroParqueoRepository extends JpaRepository<RegistroParqueo
 	Optional<RegistroParqueo> bloquearPorId(@Param("id")Long id);
 	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select r from RegistroParqueo r join r.vehiculo where v.placa = :placa and r.fechaSalida is null")
+	@Query("select r from RegistroParqueo r join r.vehiculo v where v.placa = :placa and r.fechaSalida is null")
 	Optional<RegistroParqueo> bloquearActivoPorPlaca(@Param("placa") String placa);
 	
 }

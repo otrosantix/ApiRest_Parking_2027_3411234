@@ -14,38 +14,38 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
 	@ExceptionHandler(ApiException.class)
 	public ResponseEntity<ErrorResponse> api(ApiException ex) {
 		return build(ex.getStatus(), ex.getMessage(), List.of());
-
 	}
 
-	@ExceptionHandler()
+	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse> validation(MethodArgumentNotValidException ex) {
 		List<String> detalles = ex.getBindingResult().getFieldErrors().stream()
 				.map(f -> f.getField() + ": " + f.getDefaultMessage()).toList();
 		return build(HttpStatus.BAD_REQUEST, "Datos de entrada invalidos", detalles);
-
 	}
 
-	@ExceptionHandler(ApiException.class)
-	public ResponseEntity<ErrorResponse> JsonInvalido(HttpMessageNotReadableException ex) {
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponse> jsonInvalido(HttpMessageNotReadableException ex) {
 		return build(HttpStatus.BAD_REQUEST,
 				"JSON mal formado o con valores no permitidos (tipo debe ser CARRO, MOTO o BICICLETA)", List.of());
 	}
 
-	@ExceptionHandler(ApiException.class)
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<ErrorResponse> parametro(MethodArgumentTypeMismatchException ex) {
 		return build(HttpStatus.BAD_REQUEST, "Valor invalido para el parametro '" + ex.getName() + "'", List.of());
 	}
 
-	@ExceptionHandler(ApiException.class)
+	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ErrorResponse> integridad(DataIntegrityViolationException ex) {
-		return build(HttpStatus.BAD_REQUEST, "Operacion rechazada por integridad de datos", List.of());
+		return build(HttpStatus.CONFLICT, "Operacion rechazada por integridad de datos", List.of());
 	}
 
 	private ResponseEntity<ErrorResponse> build(HttpStatus s, String msg, List<String> det) {
 		return ResponseEntity.status(s)
 				.body(new ErrorResponse(LocalDateTime.now(), s.value(), s.getReasonPhrase(), msg, det));
 	}
+
 }
